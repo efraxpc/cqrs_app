@@ -3,7 +3,7 @@ import {ICommand} from '@nestjs/cqrs'
 export class RegisterAccountUnitCommand implements ICommand {
   constructor(
     public readonly aggregateId: string,
-    public readonly paymentmechanismCount: string,
+    public readonly paymentMechanismCount: string,
   ) {}
 }
 

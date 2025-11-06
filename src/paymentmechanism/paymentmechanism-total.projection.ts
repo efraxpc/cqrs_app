@@ -20,19 +20,19 @@ export class PaymentMechanismProjection implements IEventHandler<AccountRegister
   }
 
   handleAccountRegistered(event: AccountRegisteredEvent) {
-    const pmCount = parseInt(event.paymentmechanismCount,10);
+    const pmCount = parseInt(event.paymentMechanismCount,10);
     this.currentPaymentMechanismTotal += pmCount;
     console.log("currentPaymentMechanismTotal", this.currentPaymentMechanismTotal)
   }
 
   handleAccountDisabled(event: AccountDisabledEvent) {
-    const pmCount = parseInt(event.paymentmechanismCount,10);
+    const pmCount = parseInt(event.paymentMechanismCount,10);
     this.currentPaymentMechanismTotal -= pmCount;
     console.log("currentPaymentMechanismTotal", this.currentPaymentMechanismTotal)
   }
 
   handleAccountEnabled(event: AccountEnabledEvent) {
-    const pmCount = parseInt(event.paymentmechanismCount,10);
+    const pmCount = parseInt(event.paymentMechanismCount,10);
     this.currentPaymentMechanismTotal += pmCount;
     console.log("currentPaymentMechanismTotal", this.currentPaymentMechanismTotal)
   }

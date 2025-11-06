@@ -1,8 +1,12 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import {NestFactory} from '@nestjs/core'
+import {AppModule} from './app.module'
+import {connect as connectToEventStore} from './eventstore'
+
+const port: number = 8080
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  await app.listen(process.env.PORT ?? 3000);
+  const app = await NestFactory.create(AppModule)
+  connectToEventStore()
+  await app.listen(port)
 }
-bootstrap();
+bootstrap().then(() => console.log('Application is listening on port ' + port))

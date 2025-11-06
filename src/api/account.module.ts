@@ -46,7 +46,7 @@ export class AccountModule implements OnModuleInit {
       console.log(
           `Handled event ${subscriptionItem.event?.revision}@${subscriptionItem.event?.streamId}`
       );
-      const subscriptionData: any = subscriptionItem.event.data;
+      const subscriptionData: any = subscriptionItem.event?.data;
       console.log("subscription data:", subscriptionData);
     }
   }

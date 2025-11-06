@@ -13,32 +13,32 @@ import {client as eventStore} from '../eventstore'
 
 export class AccountAggregate extends AggregateRoot {
   private id: string;
-  private paymentmechanismCount: string;
+  private paymentMechanismCount: string;
   disabled: boolean = false;
 
   constructor() {
     super();
   }
 
-  registerAccount(aggregateId: string, paymentmechanismCount: string) {
-    this.apply(new AccountRegisteredEvent(aggregateId, paymentmechanismCount));
+  registerAccount(aggregateId: string, paymentMechanismCount: string) {
+    this.apply(new AccountRegisteredEvent(aggregateId, paymentMechanismCount));
   }
 
   enableAccount(): void {
     if(this.disabled) {
-      this.apply(new AccountEnabledEvent(this.id, this.paymentmechanismCount))
+      this.apply(new AccountEnabledEvent(this.id, this.paymentMechanismCount))
     }
   }
 
   disableAccount() {
     if (!this.disabled) {
-      this.apply(new AccountDisabledEvent(this.id, this.paymentmechanismCount));
+      this.apply(new AccountDisabledEvent(this.id, this.paymentMechanismCount));
     }
   }
 
   applyAccountRegisteredEventToAggregate(event: AccountRegisteredEvent): void {
     this.id = event.aggregateId;
-    this.paymentmechanismCount = event.paymentmechanismCount;
+    this.paymentMechanismCount = event.paymentMechanismCount;
     this.disabled = false;
   }
 
@@ -56,13 +56,13 @@ export class AccountAggregate extends AggregateRoot {
     const aggregate = new AccountAggregate();
 
     for await (const event of events) {
-      const eventData: any = event.event.data;
+      const eventData: any = event.event?.data;
       try {
-        switch (event.event.type) {
+        switch (event.event?.type) {
           case 'AccountUnitCreated':
             aggregate.applyAccountRegisteredEventToAggregate({
               aggregateId: eventData.id,
-              paymentmechanismCount: eventData.paymentmechanismCount,
+              paymentMechanismCount: eventData.paymentMechanismCount,
             });
             break;
           case 'AccountUnitDisabled':
@@ -94,7 +94,7 @@ export class RegisterAccountUnitHandler
   async execute(command: RegisterAccountUnitCommand): Promise<void> {
 
     const aggregate = this.publisher.mergeObjectContext(new AccountAggregate())
-    aggregate.registerAccount(command.aggregateId, command.paymentmechanismCount)
+    aggregate.registerAccount(command.aggregateId, command.paymentMechanismCount)
     aggregate.commit()
   }
 }
@@ -132,7 +132,7 @@ export class EnableAccountUnitHandler implements ICommandHandler<EnableAccountUn
 
 interface AccountEvent {
   aggregateId: string;
-  paymentmechanismCount: string;
+  paymentMechanismCount: string;
 }
 
 async function handleAccountEvent(eventType: string, event: AccountEvent): Promise<void> {
@@ -140,7 +140,7 @@ async function handleAccountEvent(eventType: string, event: AccountEvent): Promi
     type: eventType,
     data: {
       id: event.aggregateId,
-      paymentmechanismCount: event.paymentmechanismCount,
+      paymentMechanismCount: event.paymentMechanismCount,
     },
   });
 

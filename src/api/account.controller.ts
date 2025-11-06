@@ -13,9 +13,9 @@ export class AccountUnitController {
   constructor(private readonly commandBus: CommandBus) {}
 
   @Post('/register')
-  async registerAccount(@Query('paymentmechanismCount') paymentmechanismCount: string): Promise<any> {
+  async registerAccount(@Query('paymentMechanismCount') paymentMechanismCount: string): Promise<any> {
     const aggregateId = uuid()
-    await this.commandBus.execute(new RegisterAccountUnitCommand(aggregateId, paymentmechanismCount))
+    await this.commandBus.execute(new RegisterAccountUnitCommand(aggregateId, paymentMechanismCount))
     return { message: 'Request received as a command', aggregateId };
   }
 
